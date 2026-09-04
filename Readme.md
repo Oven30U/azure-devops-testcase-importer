@@ -15,6 +15,8 @@ El script está separado en módulos por responsabilidad. Los 4 archivos `.py` t
 
 A esto se suman `requirements.txt` (dependencias), `.env.example` (plantilla de configuración), `.gitignore` y este `README.md`.
 
+> **`.env.example` sí está versionado en este repo** (solo tiene placeholders, ningún dato real). **`.env` nunca se sube** — cada QA lo crea localmente copiando `.env.example`, y `.gitignore` lo excluye para que no se suba por error.
+
 ## Antes de empezar: cómo conseguir los datos de Azure DevOps
 
 Para completar tu archivo `.env` necesitás estos datos: la organización, el proyecto, el Test Plan/Suite destino y un Personal Access Token (PAT). Así se consigue cada uno.
@@ -63,8 +65,9 @@ Instala `pandas`, `requests`, `openpyxl` y `python-dotenv` (versiones mínimas l
 
 El script **no se edita** para usarlo: toda la configuración de tu organización/proyecto vive en un archivo `.env` separado, que nunca se comparte ni se sube a un repositorio (`.gitignore` ya lo excluye).
 
-1. Copiá `.env.example` a `.env` (mismo directorio que el script).
-2. Completá cada variable en `.env`:
+1. Cloná este repo (ya trae `.env.example` con placeholders, sin datos reales).
+2. Copiá `.env.example` a `.env` (mismo directorio que el script) y completá tus valores ahí. `.env` queda solo en tu máquina — nunca se commitea.
+3. Completá cada variable en `.env`:
 
 | Variable | Qué va ahí |
 |---|---|
