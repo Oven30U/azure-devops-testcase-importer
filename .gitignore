@@ -1,0 +1,10 @@
+# Configuracion local: nunca se comparte ni se sube a un repositorio.
+.env
+
+# Archivos de Python
+__pycache__/
+*.pyc
+
+# Excels reales de casos de prueba (dejar solo la plantilla versionada)
+*.xlsx
+!Plantilla_Casos_de_Prueba_Azure_DevOps.xlsx
