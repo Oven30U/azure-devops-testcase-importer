@@ -8,6 +8,16 @@ instrucciones de uso, configuracion, formato del Excel y el
 comportamiento de reutilizacion de Test Cases.
 """
 
+# IMPORTANTE: esto tiene que ir antes de cualquier import que termine
+# usando `requests`/`urllib3` (azure_devops_client, por ejemplo), para
+# que las conexiones HTTPS usen el almacen de certificados de Windows
+# (donde ya esta confiada la CA interna de Deloitte) en vez del bundle
+# de certifi que trae Python por defecto. Soluciona el
+# SSLCertVerificationError: unable to get local issuer certificate.
+import truststore
+
+truststore.inject_into_ssl()
+
 from azure_devops_client import AzureDevOpsClient
 from config import cargar_configuracion, obtener_pat
 from excel_reader import (

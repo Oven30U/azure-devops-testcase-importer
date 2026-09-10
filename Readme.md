@@ -59,7 +59,7 @@ Completá la plantilla que se distribuye junto con este script, o armá uno prop
 pip install -r requirements.txt
 ```
 
-Instala `pandas`, `requests`, `openpyxl` y `python-dotenv` (versiones mínimas listadas en `requirements.txt`).
+Instala `pandas`, `requests`, `openpyxl`, `python-dotenv` y `truststore` (versiones mínimas listadas en `requirements.txt`). `truststore` es el que permite validar certificados HTTPS emitidos por una CA interna cuando se usa contra un Azure DevOps Server on-premise (ver "Solución de problemas" más abajo).
 
 ## Configuración
 
@@ -142,3 +142,13 @@ El script, en orden:
 5. Revisa qué casos ya están en la suite destino, para no duplicarlos.
 6. Por cada caso: crea el Test Case (o reutiliza el existente en esa suite) y lo agrega a la suite.
 7. Imprime un resumen final con creados, reutilizados, agregados y errores, y un detalle fila por fila.
+
+## Solución de problemas
+
+### `SSLCertVerificationError: unable to get local issuer certificate`
+
+Puede pasar al conectar contra un **Azure DevOps Server on-premise** (por ejemplo, detrás de la red/VPN de una empresa) cuyo certificado HTTPS fue emitido por una autoridad certificadora (CA) interna. Windows y el navegador ya confían en esa CA, pero Python usa su propio paquete de certificados (`certifi`), que no la incluye.
+
+Por eso el script depende de `truststore` (ya listado en `requirements.txt`, se instala solo con `pip install -r requirements.txt`): valida los certificados contra el almacén de Windows en vez del de `certifi`, así que si la CA interna ya es confiada por el sistema operativo, el script también confía en ella — sin desactivar ninguna verificación.
+
+Si ves este error igual, confirmá que instalaste las dependencias del proyecto (`pip install -r requirements.txt`) en el mismo entorno/virtualenv desde el que corrés `python importador_azure.py`.
